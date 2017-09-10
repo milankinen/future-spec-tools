@@ -108,10 +108,9 @@
 (defmethod accept-spec #?(:cljs 'clojure.core/bigdec? :clj 'clojure.future/bigdec?) [_ _ _ _] {:type "number" :format "double"})
 
 
-; TODO: FIX TYPE
 ; inst? (fmap #(java.util.Date. %)
 ;             (large-integer))
-(defmethod accept-spec #?(:cljs 'clojure.core/inst? :clj 'clojure.future/inst?) [_ _ _ _] {:type "number" :format "double"})
+(defmethod accept-spec #?(:cljs 'clojure.core/inst? :clj 'clojure.future/inst?) [_ _ _ _] {:type "string" :format "date-time"})
 
 ; seqable? (one-of [(return nil)
 ;                   (list simple)
