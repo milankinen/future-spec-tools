@@ -1,5 +1,6 @@
 (ns spec-tools.swagger.core
-  (:require [clojure.walk :as walk]
+  (:require #?(:clj [clojure.future :refer :all])
+            [clojure.walk :as walk]
             [spec-tools.json-schema :as json-schema]
             [spec-tools.visitor :as visitor]
             [spec-tools.impl :as impl]
@@ -13,7 +14,7 @@
 (defmulti accept-spec spec-dispatch :default ::default)
 
 (defmethod accept-spec 'clojure.core/float? [_ _ _ _] {:type "number" :format "float"})
-(defmethod accept-spec 'clojure.core/double? [_ _ _ _] {:type "number" :format "double"})
+(defmethod accept-spec #?(:cljs 'clojure.core/double? :clj 'clojure.future/double?) [_ _ _ _] {:type "number" :format "double"})
 (defmethod accept-spec 'clojure.core/nil? [_ _ _ _] {})
 
 ;; anyOf is not supported

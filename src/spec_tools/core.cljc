@@ -5,9 +5,9 @@
             [spec-tools.form :as form]
             [spec-tools.conform :as conform]
             [clojure.spec.alpha :as s]
-    #?@(:clj  [
-               [clojure.spec.gen.alpha :as gen]
-               [clojure.edn]]
+    #?@(:clj  [[clojure.spec.gen.alpha :as gen]
+               [clojure.edn]
+               [clojure.future :refer :all]]
         :cljs [[goog.date.UtcDateTime]
                [cljs.reader]
                [clojure.test.check.generators]

@@ -3,6 +3,7 @@
   #?(:cljs (:require-macros [spec-tools.impl :refer [resolve]]))
   (:require
     #?(:cljs [cljs.analyzer.api])
+    #?(:clj [clojure.future])
     [clojure.spec.alpha :as s]
     [clojure.walk :as walk])
   (:import
@@ -19,6 +20,18 @@
   `(if (in-cljs? ~env)
      ((clojure.core/resolve 'cljs.analyzer.api/resolve) ~env ~sym)
      (clojure.core/resolve ~env ~sym)))
+
+(def ^:private future-fns
+  #?(:clj  (->> (ns-publics 'clojure.future)
+                (keys)
+                (map name)
+                (set))
+     :cljs #{}))
+
+(defn- futurish-symbol? [kw]
+  (and (symbol? kw)
+       (contains? #{"clojure.core" "spec-tools.spec"} (namespace kw))
+       (contains? future-fns (name kw))))
 
 (defn- cljs-sym [x]
   (if (map? x)
@@ -95,11 +108,13 @@
       form)))
 
 (defn normalize-symbol [kw]
-  (case (and (symbol? kw) (namespace kw))
-    "spec-tools.spec" (symbol "clojure.core" (name kw))
-    "cljs.core" (symbol "clojure.core" (name kw))
-    "cljs.spec.alpha" (symbol "clojure.spec.alpha" (name kw))
-    kw))
+  (if (futurish-symbol? kw)
+    (symbol "clojure.future" (name kw))
+    (case (and (symbol? kw) (namespace kw))
+      "spec-tools.spec" (symbol "clojure.core" (name kw))
+      "cljs.core" (symbol "clojure.core" (name kw))
+      "cljs.spec.alpha" (symbol "clojure.spec.alpha" (name kw))
+      kw)))
 
 (defn extract-form [spec]
   (if (seq? spec) spec (s/form spec)))

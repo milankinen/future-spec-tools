@@ -1,5 +1,6 @@
 (ns spec-tools.form
-  (:require [clojure.spec.alpha :as s]))
+  (:require [clojure.spec.alpha :as s]
+            #?(:clj [clojure.future :refer :all])))
 
 (defmulti resolve-form
   (fn [x] (cond

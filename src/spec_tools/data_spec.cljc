@@ -1,6 +1,7 @@
 (ns spec-tools.data-spec
   "Data Specs"
-  (:require [spec-tools.impl :as impl]
+  (:require #?(:clj [clojure.future :refer :all])
+            [spec-tools.impl :as impl]
             [spec-tools.core :as st]
             [spec-tools.form :as form]
             [clojure.spec.alpha :as s]))

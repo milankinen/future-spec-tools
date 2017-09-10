@@ -1,5 +1,6 @@
 (ns spec-tools.swagger.spec
-  (:require [clojure.spec.alpha :as s]
+  (:require #?(:clj [clojure.future :refer :all])
+            [clojure.spec.alpha :as s]
             [spec-tools.data-spec :as ds]))
 
 (s/def ::external-docs

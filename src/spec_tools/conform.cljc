@@ -2,7 +2,8 @@
   #?(:cljs (:refer-clojure :exclude [Inst Keyword UUID]))
   (:require [clojure.spec.alpha :as s]
     #?@(:cljs [[goog.date.UtcDateTime]
-               [goog.date.Date]])
+               [goog.date.Date]]
+        :clj [[clojure.future :refer :all]])
             [clojure.set :as set])
   #?(:clj
      (:import (java.util Date UUID)

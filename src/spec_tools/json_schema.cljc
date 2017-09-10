@@ -1,6 +1,7 @@
 (ns spec-tools.json-schema
   "Tools for converting specs into JSON Schemata."
-  (:require [spec-tools.visitor :as visitor]
+  (:require #?(:clj [clojure.future :refer :all]) 
+            [spec-tools.visitor :as visitor]
             [spec-tools.type :as type]
             [spec-tools.impl :as impl]
             [clojure.set :as set]
@@ -30,7 +31,7 @@
 ;;
 
 ; any? (one-of [(return nil) (any-printable)])
-(defmethod accept-spec 'clojure.core/any? [_ _ _ _] {})
+(defmethod accept-spec #?(:cljs 'clojure.core/any? :clj 'clojure.future/any?) [_ _ _ _] {})
 
 ; some? (such-that some? (any-printable))
 (defmethod accept-spec 'clojure.core/some? [_ _ _ _] {})
@@ -46,70 +47,71 @@
 (defmethod accept-spec 'clojure.core/integer? [_ _ _ _] {:type "integer"})
 
 ; int? (large-integer)
-(defmethod accept-spec 'clojure.core/int? [_ _ _ _] {:type "integer" :format "int64"})
+(defmethod accept-spec #?(:cljs 'clojure.core/int? :clj 'clojure.future/int?) [_ _ _ _] {:type "integer" :format "int64"})
 
 ; pos-int? (large-integer* {:min 1})
-(defmethod accept-spec 'clojure.core/pos-int? [_ _ _ _] {:type "integer", :format "int64", :minimum 1})
+(defmethod accept-spec #?(:cljs 'clojure.core/pos-int? :clj 'clojure.future/pos-int?) [_ _ _ _] {:type "integer", :format "int64", :minimum 1})
 
 ; neg-int? (large-integer* {:max -1})
-(defmethod accept-spec 'clojure.core/neg-int? [_ _ _ _] {:type "integer", :format "int64", :maximum -1})
+(defmethod accept-spec #?(:cljs 'clojure.core/neg-int? :clj 'clojure.future/neg-int?) [_ _ _ _] {:type "integer", :format "int64", :maximum -1})
 
 ; nat-int? (large-integer* {:min 0})
-(defmethod accept-spec 'clojure.core/nat-int? [_ _ _ _] {:type "integer", :format "int64" :minimum 0})
+(defmethod accept-spec #?(:cljs 'clojure.core/nat-int? :clj 'clojure.future/nat-int?) [_ _ _ _] {:type "integer", :format "int64" :minimum 0})
 
 ; float? (double)
 (defmethod accept-spec 'clojure.core/float? [_ _ _ _] {:type "number"})
 
 ; double? (double)
-(defmethod accept-spec 'clojure.core/double? [_ _ _ _] {:type "number"})
+(defmethod accept-spec #?(:cljs 'clojure.core/double? :clj 'clojure.future/double?) [_ _ _ _] {:type "number"})
 
 ; boolean? (boolean)
-(defmethod accept-spec 'clojure.core/boolean? [_ _ _ _] {:type "boolean"})
+(defmethod accept-spec #?(:cljs 'clojure.core/boolean? :clj 'clojure.future/boolean?) [_ _ _ _] {:type "boolean"})
 
 ; string? (string-alphanumeric)
 (defmethod accept-spec 'clojure.core/string? [_ _ _ _] {:type "string"})
 
 ; ident? (one-of [(keyword-ns) (symbol-ns)])
-(defmethod accept-spec 'clojure.core/ident? [_ _ _ _] {:type "string"})
+(defmethod accept-spec #?(:cljs 'clojure.core/ident? :clj 'clojure.future/ident?) [_ _ _ _] {:type "string"})
 
 ; simple-ident? (one-of [(keyword) (symbol)])
-(defmethod accept-spec 'clojure.core/simple-ident? [_ _ _ _] {:type "string"})
+(defmethod accept-spec #?(:cljs 'clojure.core/simple-ident? :clj 'clojure.future/simple-ident?) [_ _ _ _] {:type "string"})
 
 ; qualified-ident? (such-that qualified? (one-of [(keyword-ns) (symbol-ns)]))
-(defmethod accept-spec 'clojure.core/qualified-ident? [_ _ _ _] {:type "string"})
+(defmethod accept-spec #?(:cljs 'clojure.core/qualified-ident? :clj 'clojure.future/qualified-ident?) [_ _ _ _] {:type "string"})
 
 ; keyword? (keyword-ns)
 (defmethod accept-spec 'clojure.core/keyword? [_ _ _ _] {:type "string"})
 
 ; simple-keyword? (keyword)
-(defmethod accept-spec 'clojure.core/simple-keyword? [_ _ _ _] {:type "string"})
+(defmethod accept-spec #?(:cljs 'clojure.core/simple-keyword? :clj 'clojure.future/simple-keyword?) [_ _ _ _] {:type "string"})
 
 ; qualified-keyword? (such-that qualified? (keyword-ns))
-(defmethod accept-spec 'clojure.core/qualified-keyword? [_ _ _ _] {:type "string"})
+(defmethod accept-spec #?(:cljs 'clojure.core/qualified-keyword? :clj 'clojure.future/qualified-keyword?) [_ _ _ _] {:type "string"})
 
 ; symbol? (symbol-ns)
 (defmethod accept-spec 'clojure.core/symbol? [_ _ _ _] {:type "string"})
 
 ; simple-symbol? (symbol)
-(defmethod accept-spec 'clojure.core/simple-symbol? [_ _ _ _] {:type "string"})
+(defmethod accept-spec #?(:cljs 'clojure.core/simple-symbol? :clj 'clojure.future/simple-symbol?) [_ _ _ _] {:type "string"})
 
 ; qualified-symbol? (such-that qualified? (symbol-ns))
-(defmethod accept-spec 'clojure.core/qualified-symbol? [_ _ _ _] {:type "string"})
+(defmethod accept-spec #?(:cljs 'clojure.core/qualified-symbol? :clj 'clojure.future/qualified-symbol?) [_ _ _ _] {:type "string"})
 
 ; uuid? (uuid)
-(defmethod accept-spec 'clojure.core/uuid? [_ _ _ _] {:type "string" :format "uuid"})
+(defmethod accept-spec #?(:cljs 'clojure.core/uuid? :clj 'clojure.future/uuid?) [_ _ _ _] {:type "string" :format "uuid"})
 
 ; uri? (fmap #(java.net.URI/create (str "http://" % ".com")) (uuid))
-(defmethod accept-spec 'clojure.core/uri? [_ _ _ _] {:type "string" :format "uri"})
+(defmethod accept-spec #?(:cljs 'clojure.core/uri? :clj 'clojure.future/uri?) [_ _ _ _] {:type "string" :format "uri"})
 
 ; bigdec? (fmap #(BigDecimal/valueOf %)
 ;               (double* {:infinite? false :NaN? false}))
-(defmethod accept-spec 'clojure.core/bigdec? [_ _ _ _] {:type "number" :format "double"})
+(defmethod accept-spec #?(:cljs 'clojure.core/bigdec? :clj 'clojure.future/bigdec?) [_ _ _ _] {:type "number" :format "double"})
 
 
+; TODO: FIX TYPE
 ; inst? (fmap #(java.util.Date. %)
 ;             (large-integer))
-(defmethod accept-spec 'clojure.core/bigdec? [_ _ _ _] {:type "number" :format "double"})
+(defmethod accept-spec #?(:cljs 'clojure.core/inst? :clj 'clojure.future/inst?) [_ _ _ _] {:type "number" :format "double"})
 
 ; seqable? (one-of [(return nil)
 ;                   (list simple)
@@ -117,7 +119,7 @@
 ;                   (map simple simple)
 ;                   (set simple)
 ;                   (string-alphanumeric)])
-(defmethod accept-spec 'clojure.core/seqable? [_ _ _ _] {:type "array"})
+(defmethod accept-spec #?(:cljs 'clojure.core/seqable? :clj 'clojure.future/seqable?) [_ _ _ _] {:type "array"})
 
 ; indexed? (vector simple)
 (defmethod accept-spec 'clojure.core/map? [_ _ _ _] {:type "array"})
@@ -174,7 +176,7 @@
 (defmethod accept-spec 'clojure.core/ratio? [_ _ _ _] {:type "integer"})
 
 ; bytes? (bytes)
-(defmethod accept-spec 'clojure.core/ratio? [_ _ _ _] {:type "string" :format "byte"})
+(defmethod accept-spec #?(:cljs 'clojure.core/bytes? :clj 'clojure.future/bytes?) [_ _ _ _] {:type "string" :format "byte"})
 
 (defmethod accept-spec ::visitor/set [dispatch spec children _]
   {:enum children})
