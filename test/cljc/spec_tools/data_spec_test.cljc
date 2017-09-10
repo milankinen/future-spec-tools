@@ -1,5 +1,6 @@
 (ns spec-tools.data-spec-test
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require #?(:clj [clojure.future :refer :all])
+            [clojure.test :refer [deftest testing is]]
             [clojure.spec.alpha :as s]
             [spec-tools.data-spec :as ds]
             [spec-tools.core :as st]

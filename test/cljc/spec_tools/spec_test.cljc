@@ -1,39 +1,41 @@
 (ns spec-tools.spec-test
   (:require [clojure.test :refer [deftest are]]
+            #?(:clj [clojure.future :as future]
+               :cljs [cljs.core :as future])
             [spec-tools.spec :as spec]))
 
 (deftest specs-test
   (are [spec pred]
     (= (:spec spec) pred)
-    spec/any? clojure.core/any?
+    spec/any? future/any?
     spec/some? clojure.core/some?
     spec/number? clojure.core/number?
     spec/pos? clojure.core/pos?
     spec/neg? clojure.core/neg?
     spec/integer? clojure.core/integer?
-    spec/int? clojure.core/int?
-    spec/pos-int? clojure.core/pos-int?
-    spec/neg-int? clojure.core/neg-int?
-    spec/nat-int? clojure.core/nat-int?
+    spec/int? future/int?
+    spec/pos-int? future/pos-int?
+    spec/neg-int? future/neg-int?
+    spec/nat-int? future/nat-int?
     spec/float? clojure.core/float?
-    spec/double? clojure.core/double?
-    spec/boolean? clojure.core/boolean?
+    spec/double? future/double?
+    spec/boolean? future/boolean?
     spec/string? clojure.core/string?
-    spec/ident? clojure.core/ident?
-    spec/simple-ident? clojure.core/simple-ident?
-    spec/qualified-ident? clojure.core/qualified-ident?
+    spec/ident? future/ident?
+    spec/simple-ident? future/simple-ident?
+    spec/qualified-ident? future/qualified-ident?
     spec/keyword? clojure.core/keyword?
-    spec/simple-keyword? clojure.core/simple-keyword?
-    spec/qualified-keyword? clojure.core/qualified-keyword?
+    spec/simple-keyword? future/simple-keyword?
+    spec/qualified-keyword? future/qualified-keyword?
     spec/symbol? clojure.core/symbol?
-    spec/simple-symbol? clojure.core/simple-symbol?
-    spec/qualified-symbol? clojure.core/qualified-symbol?
-    spec/uuid? clojure.core/uuid?
-    ;#?(:clj spec/uri? clojure.core/uri?)
-    ;#?(:clj spec/bigdec? clojure.core/bigdec?)
-    spec/inst? clojure.core/inst?
-    spec/seqable? clojure.core/seqable?
-    spec/indexed? clojure.core/indexed?
+    spec/simple-symbol? future/simple-symbol?
+    spec/qualified-symbol? future/qualified-symbol?
+    spec/uuid? future/uuid?
+    ;#?(:clj spec/uri? future/uri?)
+    ;#?(:clj spec/bigdec? future/bigdec?)
+    spec/inst? future/inst?
+    spec/seqable? future/seqable?
+    spec/indexed? future/indexed?
     spec/map? clojure.core/map?
     spec/vector? clojure.core/vector?
     spec/list? clojure.core/list?
@@ -50,5 +52,5 @@
     spec/associative? clojure.core/associative?
     spec/sequential? clojure.core/sequential?
     ;#?(:clj spec/ratio? clojure.core/ratio?)
-    ;#?(:clj spec/bytes? clojure.core/bytes?)
+    ;#?(:clj spec/bytes? future/bytes?)
     ))

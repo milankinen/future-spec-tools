@@ -4,8 +4,8 @@
     [spec-tools.swagger.core :as swagger]
     [clojure.spec.alpha :as s]
     [spec-tools.spec :as spec]
-    #?(:clj
-    [ring.swagger.validator :as v])))
+    #?@(:clj [[ring.swagger.validator :as v]
+              [clojure.future :refer :all]])))
 
 (s/def ::integer integer?)
 (s/def ::string string?)

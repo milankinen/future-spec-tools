@@ -1,5 +1,6 @@
 (ns spec-tools.visitor-test
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require #?(:clj [clojure.future :refer :all])
+            [clojure.test :refer [deftest testing is]]
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [spec-tools.data-spec :as ds]
@@ -14,7 +15,7 @@
 (deftest test-visit
   (is (= (visitor/visit #(pos? %) collect) [::s/unknown]))
   (is (= (visitor/visit #{1 2 3} collect) [:spec-tools.visitor/set 1 3 2]))
-  (is (= (visitor/visit int? collect) ['clojure.core/int?]))
+  (is (= (visitor/visit int? collect) [#?(:cljs 'clojure.core/int? :clj 'clojure.future/int?)]))
   (is (= (visitor/visit ::map collect)
          '[clojure.spec.alpha/keys [clojure.core/string?] [clojure.core/integer?]])))
 
