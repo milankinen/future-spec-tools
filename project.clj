@@ -1,6 +1,6 @@
-(defproject metosin/spec-tools "0.3.3"
-  :description "Clojure(Script) tools for clojure.spec"
-  :url "https://github.com/metosin/spec-tools"
+(defproject milankinen/future-spec-tools "0.3.3-SNAPSHOT"
+  :description "Clojure(Script) tools for clojure-spec-tools"
+  :url "https://github.com/milankinen/future-spec-tools"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
