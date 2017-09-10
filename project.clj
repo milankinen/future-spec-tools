@@ -1,4 +1,4 @@
-(defproject milankinen/future-spec-tools "0.3.3-SNAPSHOT"
+(defproject milankinen/future-spec-tools "0.3.3"
   :description "Clojure(Script) tools for clojure-spec-tools"
   :url "https://github.com/milankinen/future-spec-tools"
   :license {:name "Eclipse Public License"

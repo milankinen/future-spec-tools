@@ -10,7 +10,7 @@ Clojure 1.8 and [`clojure-future-spec`](https://github.com/tonsky/clojure-future
 ## Usage
 
 In order to use this package, you must also include `clojure-future-spec` and 
-`clojure/test.check` in your dependencies:
+`org.clojure/test.check` in your dependencies:
 
 ```clj 
 (defproject your-project "0.0.1"
@@ -18,7 +18,7 @@ In order to use this package, you must also include `clojure-future-spec` and
                  [org.clojure/clojurescript "1.9.908"]
                  [org.clojure/test.check "0.10.0-alpha2"]
                  [clojure-future-spec "1.9.0-alpha17"]
-                 [milankinen/future-spec-tools "0.3.3-SNAPSHOT"]]
+                 [milankinen/future-spec-tools "0.3.3"]]
   ...)
 ```
 
